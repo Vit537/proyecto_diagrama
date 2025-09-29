@@ -1,0 +1,35 @@
+# Core Django dependencies
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+
+# Database
+psycopg2-binary==2.9.9
+
+# WebSockets for real-time collaboration
+channels==4.0.0
+channels-redis==4.1.0
+redis==5.0.1
+
+# Authentication
+django-allauth==0.57.0
+djangorestframework-simplejwt==5.3.0
+PyJWT==2.8.0
+
+# OAuth with Google
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+
+# PDF generation
+reportlab==4.0.7
+weasyprint==60.1
+
+# Environment variables
+python-decouple==3.8
+
+# Code generation utilities
+Jinja2==3.1.2
+
+# Utilities
+pillow>=9.0.0
+django-extensions==3.2.3

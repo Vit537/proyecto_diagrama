@@ -1,0 +1,86 @@
+{
+  "nodes": [
+    {
+      "id": "class-1759024015472",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": -15,
+        "y": 30
+      },
+      "data": {
+        "className": "nuevo",
+        "attributes": [
+          {
+            "name": "name",
+            "type": "String",
+            "visibility": "private"
+          }
+        ],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 173
+      },
+      "selected": true,
+      "dragging": false
+    },
+    {
+      "id": "class-1759024016559",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": 750,
+        "y": 120
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 182
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "class-1759024170286",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": 105,
+        "y": 270
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 182
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "class-1759024015472",
+      "sourceHandle": "right-50",
+      "target": "class-1759024016559",
+      "targetHandle": "left-50",
+      "type": "improvedUMLEdge",
+      "data": {
+        "relationship": "association",
+        "sourceMultiplicity": "1..*",
+        "targetMultiplicity": "1",
+        "isReconnectable": true,
+        "label": "tiene"
+      },
+      "id": "xy-edge__class-1759024015472right-50-class-1759024016559left-50",
+      "selected": false
+    }
+  ],
+  "timestamp": "2025-09-28T01:50:22.575Z"
+}

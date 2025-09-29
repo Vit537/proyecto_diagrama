@@ -1,0 +1,416 @@
+// Actualiza tu archivo principal del editor con esta configuración
+
+import React, { useState, useCallback, useRef } from 'react';
+import {
+  ReactFlow,
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  Controls,
+  Background,
+  type Node,
+  type Edge,
+  type Connection,
+  ReactFlowProvider,
+  ConnectionLineType,
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+
+// Importar los componentes mejorados
+import ImprovedUMLClassNode from '@/components/improved-uml-class-node';
+import ImprovedUMLEdge from '@/components/improved-uml-edge';
+import ManyToManyEdge from '@/components/many-to-many-edge';
+import { UMLMarkers } from '@/components/uml-markers';
+import { UMLToolPanel } from '@/components/uml-tool-panel';
+import { UMLClassEditor } from '@/components/uml-class-editor';
+import { MultiplicityEditor } from '@/components/multiplicity-editor';
+import { UMLToolbar } from '@/components/uml-toolbar';
+
+// Types
+import type { UMLClassData, UMLEdgeData, RelationType } from '@/types/uml';
+
+// Configuración de tipos de nodos y edges
+const nodeTypes = {
+  umlClass: ImprovedUMLClassNode, // Usar el componente mejorado
+};
+
+const edgeTypes = {
+  improvedEdge: ImprovedUMLEdge, // Nuevo tipo de edge principal
+  umlEdge: ImprovedUMLEdge, // Backward compatibility
+  orthogonalEdge: ImprovedUMLEdge, // Reemplazar con el mejorado
+  manyToManyEdge: ManyToManyEdge,
+};
+
+// Configuración inicial con nodos y edges de ejemplo
+const initialNodes: Node[] = [
+  {
+    id: '1',
+    type: 'umlClass',
+    position: { x: 250, y: 50 },
+    data: {
+      className: 'Person',
+      attributes: [
+        { name: 'name', type: 'String', visibility: 'private' },
+        { name: 'age', type: 'int', visibility: 'private' },
+        { name: 'email', type: 'String', visibility: 'private' },
+      ],
+      methods: [
+        { name: 'getName', returnType: 'String', parameters: [], visibility: 'public' },
+        { name: 'setName', returnType: 'void', parameters: [{ name: 'name', type: 'String' }], visibility: 'public' },
+        { name: 'getAge', returnType: 'int', parameters: [], visibility: 'public' },
+        { name: 'setAge', returnType: 'void', parameters: [{ name: 'age', type: 'int' }], visibility: 'public' },
+      ],
+    } as UMLClassData,
+  },
+  {
+    id: '2',
+    type: 'umlClass',
+    position: { x: 550, y: 50 },
+    data: {
+      className: 'Employee',
+      attributes: [
+        { name: 'employeeId', type: 'String', visibility: 'private' },
+        { name: 'salary', type: 'double', visibility: 'private' },
+        { name: 'department', type: 'String', visibility: 'private' },
+      ],
+      methods: [
+        { name: 'calculateSalary', returnType: 'double', parameters: [], visibility: 'public' },
+        { name: 'promote', returnType: 'void', parameters: [], visibility: 'public' },
+      ],
+    } as UMLClassData,
+  },
+];
+
+const initialEdges: Edge[] = [
+  {
+    id: 'e1-2',
+    source: '1',
+    target: '2',
+    type: 'improvedEdge', // Usar el nuevo tipo de edge
+    sourceHandle: 'right-center',
+    targetHandle: 'left-center',
+    data: {
+      relationType: 'inheritance',
+      label: 'extends',
+    } as UMLEdgeData,
+  },
+];
+
+export const UpdatedUMLEditor: React.FC = () => {
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [selectedTool, setSelectedTool] = useState<string>('select');
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
+  const [isClassEditorOpen, setIsClassEditorOpen] = useState(false);
+  const [isMultiplicityEditorOpen, setIsMultiplicityEditorOpen] = useState(false);
+  const [selectedNodes, setSelectedNodes] = useState<Node[]>([]);
+  const [selectedEdges, setSelectedEdges] = useState<Edge[]>([]);
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+
+  // Manejar eventos de teclado para eliminación
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Delete') {
+      // Eliminar nodos seleccionados
+      if (selectedNodes.length > 0) {
+        const nodeIdsToDelete = selectedNodes.map(node => node.id);
+        setNodes(nodes => nodes.filter(node => !nodeIdsToDelete.includes(node.id)));
+        setEdges(edges => edges.filter(edge => 
+          !nodeIdsToDelete.includes(edge.source) && !nodeIdsToDelete.includes(edge.target)
+        ));
+        setSelectedNodes([]);
+      }
+      
+      // Eliminar edges seleccionados
+      if (selectedEdges.length > 0) {
+        const edgeIdsToDelete = selectedEdges.map(edge => edge.id);
+        setEdges(edges => edges.filter(edge => !edgeIdsToDelete.includes(edge.id)));
+        setSelectedEdges([]);
+      }
+    }
+  }, [selectedNodes, selectedEdges, setNodes, setEdges]);
+
+  // Agregar event listener para eventos de teclado
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
+  // Manejar cambios de selección
+  const onSelectionChange = useCallback(({ nodes, edges }: { nodes: Node[], edges: Edge[] }) => {
+    setSelectedNodes(nodes);
+    setSelectedEdges(edges);
+  }, []);
+
+  // Manejar clic en nodo
+  const handleNodeClick = useCallback((nodeId: string) => {
+    if (selectedTool === 'select') {
+      setSelectedNodeId(nodeId);
+      setIsClassEditorOpen(true);
+    }
+  }, [selectedTool]);
+
+  // Manejar clic en edge
+  const handleEdgeClick = useCallback((edge: Edge) => {
+    if (selectedTool === 'select') {
+      setSelectedEdgeId(edge.id);
+      setIsMultiplicityEditorOpen(true);
+    }
+  }, [selectedTool]);
+
+  // Manejar conexiones - MEJORADO para usar los nuevos tipos de edge
+  const onConnect = useCallback(
+    (params: Connection) => {
+      if (selectedTool !== 'select' && selectedTool !== 'class') {
+        if (selectedTool === 'many-to-many') {
+          // Crear tabla intermedia para relación muchos-a-muchos
+          const sourceNode = nodes.find(n => n.id === params.source);
+          const targetNode = nodes.find(n => n.id === params.target);
+          
+          if (sourceNode && targetNode) {
+            const intermediateTableId = `intermediate-${params.source}-${params.target}-${Date.now()}`;
+            const sourceData = sourceNode.data as UMLClassData;
+            const targetData = targetNode.data as UMLClassData;
+            
+            // Crear tabla intermedia
+            const intermediateTable: Node = {
+              id: intermediateTableId,
+              type: 'umlClass',
+              position: { 
+                x: (sourceNode.position.x + targetNode.position.x) / 2, 
+                y: (sourceNode.position.y + targetNode.position.y) / 2 - 80 
+              },
+              data: {
+                className: `${sourceData.className}_${targetData.className}`,
+                attributes: [
+                  { name: `${sourceData.className.toLowerCase()}Id`, type: 'String', visibility: 'private' },
+                  { name: `${targetData.className.toLowerCase()}Id`, type: 'String', visibility: 'private' },
+                ],
+                methods: [],
+              } as UMLClassData,
+            };
+            
+            setNodes(nds => [...nds, intermediateTable]);
+            
+            // Crear edge many-to-many
+            const manyToManyEdge = {
+              id: `many-to-many-${params.source}-${params.target}-${Date.now()}`,
+              source: params.source!,
+              target: params.target!,
+              type: 'manyToManyEdge',
+              sourceHandle: params.sourceHandle,
+              targetHandle: params.targetHandle,
+              data: {
+                relationType: 'many-to-many' as RelationType,
+                sourceLabel: '*',
+                targetLabel: '*',
+                label: 'many-to-many',
+                intermediateTableId: intermediateTableId,
+                intermediateTablePosition: {
+                  x: (sourceNode.position.x + targetNode.position.x) / 2,
+                  y: (sourceNode.position.y + targetNode.position.y) / 2 - 80
+                }
+              } as UMLEdgeData & { 
+                sourceLabel: string; 
+                targetLabel: string; 
+                intermediateTablePosition: { x: number; y: number };
+                intermediateTableId: string;
+              },
+            };
+            
+            setEdges((eds) => [...eds, manyToManyEdge]);
+          }
+        } else {
+          // Usar el nuevo tipo de edge mejorado para todas las demás relaciones
+          const newEdge = {
+            ...params,
+            type: 'improvedEdge', // Usar el tipo mejorado
+            data: {
+              relationType: selectedTool as RelationType,
+              sourceMultiplicity: selectedTool === 'association' ? '1' : undefined,
+              targetMultiplicity: selectedTool === 'association' ? '1' : undefined,
+            } as UMLEdgeData,
+          };
+          setEdges((eds) => addEdge(newEdge, eds));
+        }
+        setSelectedTool('select');
+      }
+    },
+    [selectedTool, setEdges, nodes, setNodes]
+  );
+
+  // Agregar nueva clase
+  const handleAddClass = useCallback(() => {
+    const newNode: Node = {
+      id: `class-${Date.now()}`,
+      type: 'umlClass',
+      position: { x: Math.random() * 300 + 100, y: Math.random() * 300 + 100 },
+      data: {
+        className: 'NewClass',
+        attributes: [],
+        methods: [],
+      } as UMLClassData,
+    };
+    setNodes((nds) => [...nds, newNode]);
+    setSelectedTool('select');
+  }, [setNodes]);
+
+  // Guardar datos de clase
+  const handleSaveClass = useCallback((classData: UMLClassData) => {
+    if (selectedNodeId) {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === selectedNodeId ? { ...node, data: classData } : node
+        )
+      );
+    }
+    setSelectedNodeId(null);
+  }, [selectedNodeId, setNodes]);
+
+  // Guardar datos de edge
+  const handleSaveEdge = useCallback((edgeData: UMLEdgeData) => {
+    if (selectedEdgeId) {
+      setEdges((eds) =>
+        eds.map((edge) =>
+          edge.id === selectedEdgeId ? { ...edge, data: edgeData } : edge
+        )
+      );
+    }
+    setSelectedEdgeId(null);
+  }, [selectedEdgeId, setEdges]);
+
+  // Guardar diagrama
+  const handleSave = useCallback(() => {
+    const diagramData = {
+      nodes,
+      edges,
+      timestamp: new Date().toISOString(),
+    };
+    
+    const dataStr = JSON.stringify(diagramData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `uml-diagram-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    
+    URL.revokeObjectURL(url);
+  }, [nodes, edges]);
+
+  // Cargar diagrama
+  const handleLoad = useCallback(() => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const diagramData = JSON.parse(e.target?.result as string);
+            if (diagramData.nodes && diagramData.edges) {
+              setNodes(diagramData.nodes);
+              setEdges(diagramData.edges);
+            }
+          } catch (error) {
+            alert('Error cargando archivo. Asegúrate de que sea un archivo de diagrama UML válido.');
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  }, [setNodes, setEdges]);
+
+  const selectedNode = selectedNodeId ? nodes.find(n => n.id === selectedNodeId) : null;
+  const selectedEdge = selectedEdgeId ? edges.find(e => e.id === selectedEdgeId) : null;
+
+  return (
+    <div className="h-screen flex flex-col">
+      <UMLToolbar onSave={handleSave} onLoad={handleLoad} />
+      
+      <div className="flex-1 flex">
+        <UMLToolPanel
+          selectedTool={selectedTool}
+          onToolSelect={setSelectedTool}
+          onAddClass={handleAddClass}
+        />
+        
+        <div className="flex-1" ref={reactFlowWrapper}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onNodeClick={(_, node) => handleNodeClick(node.id)}
+            onEdgeClick={(_, edge) => handleEdgeClick(edge)}
+            onSelectionChange={onSelectionChange}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            fitView
+            multiSelectionKeyCode="Shift"
+            deleteKeyCode="Delete"
+            className="bg-gray-50 dark:bg-gray-900"
+            connectionLineType={ConnectionLineType.SmoothStep}
+            snapGrid={[15, 15]}
+            snapToGrid={true}
+            edgesReconnectable={true} // Habilitar reconexión de edges
+            reconnectRadius={20}
+            // Configuraciones adicionales para mejor UX
+            defaultViewport={{ x: 0, y: 0, zoom: 1 }}
+            minZoom={0.2}
+            maxZoom={2}
+            attributionPosition="bottom-left"
+          >
+            <Controls />
+            <Background color="#aaa" className="dark:opacity-20" />
+            <svg style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
+              <UMLMarkers />
+            </svg>
+          </ReactFlow>
+        </div>
+      </div>
+
+      {/* Editor de Clase Modal */}
+      {selectedNode && (
+        <UMLClassEditor
+          isOpen={isClassEditorOpen}
+          onClose={() => {
+            setIsClassEditorOpen(false);
+            setSelectedNodeId(null);
+          }}
+          classData={selectedNode.data as UMLClassData}
+          onSave={handleSaveClass}
+        />
+      )}
+
+      {/* Editor de Multiplicidad Modal */}
+      {selectedEdge && (
+        <MultiplicityEditor
+          isOpen={isMultiplicityEditorOpen}
+          onClose={() => {
+            setIsMultiplicityEditorOpen(false);
+            setSelectedEdgeId(null);
+          }}
+          edgeData={selectedEdge.data as UMLEdgeData}
+          onSave={handleSaveEdge}
+        />
+      )}
+    </div>
+  );
+};
+
+// Componente principal con providers
+const UpdatedUMLEditorWithProviders: React.FC = () => (
+  <ReactFlowProvider>
+    <UpdatedUMLEditor />
+  </ReactFlowProvider>
+);
+
+export default UpdatedUMLEditorWithProviders;

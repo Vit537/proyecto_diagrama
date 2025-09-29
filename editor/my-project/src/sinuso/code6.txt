@@ -1,0 +1,297 @@
+/* Estilos CSS mejorados para el sistema UML */
+
+/* Estilos base para React Flow */
+.react-flow__node-umlClass {
+  border-radius: 8px !important;
+  overflow: visible !important;
+}
+
+.react-flow__handle {
+  border-radius: 50% !important;
+  width: 10px !important;
+  height: 10px !important;
+  border: 2px solid white !important;
+  background: #3b82f6 !important;
+  opacity: 0 !important;
+  transition: all 0.2s ease !important;
+  z-index: 10 !important;
+}
+
+.react-flow__handle:hover {
+  opacity: 1 !important;
+  transform: scale(1.3) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.react-flow__node:hover .react-flow__handle {
+  opacity: 0.7 !important;
+}
+
+.react-flow__node.selected .react-flow__handle {
+  opacity: 1 !important;
+}
+
+/* Estilos para el arrastre de edges */
+.react-flow__edge {
+  pointer-events: stroke !important;
+  stroke-width: 2px !important;
+}
+
+.react-flow__edge:hover {
+  stroke-width: 3px !important;
+}
+
+.react-flow__edge.selected {
+  stroke: #3b82f6 !important;
+  stroke-width: 3px !important;
+}
+
+/* Estilos para puntos de control de edges */
+.control-point {
+  transition: all 0.2s ease !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) !important;
+  cursor: grab !important;
+}
+
+.control-point:hover {
+  transform: scale(1.2) !important;
+  cursor: grab !important;
+}
+
+.control-point:active {
+  cursor: grabbing !important;
+}
+
+/* Estilos para las líneas de conexión */
+.react-flow__connectionline {
+  stroke: #3b82f6 !important;
+  stroke-width: 2px !important;
+  stroke-dasharray: 5,5 !important;
+  animation: dash 0.5s linear infinite !important;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -10px;
+  }
+}
+
+/* Estilos para el preview de conexión */
+.react-flow__connection-path {
+  stroke: #3b82f6 !important;
+  stroke-width: 2px !important;
+  fill: none !important;
+}
+
+/* Estilos para handles específicos por posición */
+.react-flow__handle-top {
+  top: -5px !important;
+}
+
+.react-flow__handle-bottom {
+  bottom: -5px !important;
+}
+
+.react-flow__handle-left {
+  left: -5px !important;
+}
+
+.react-flow__handle-right {
+  right: -5px !important;
+}
+
+/* Estilos para nodos UML mejorados */
+.uml-node-improved {
+  background: white;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.uml-node-improved:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.uml-node-improved.selected {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2), 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode */
+.dark .uml-node-improved {
+  background: #1f2937;
+  border-color: #6b7280;
+  color: #f9fafb;
+}
+
+.dark .uml-node-improved:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dark .uml-node-improved.selected {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3), 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilos para indicadores de estado */
+.connection-indicator {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.react-flow__node:hover .connection-indicator {
+  opacity: 1;
+}
+
+/* Estilos para feedback visual durante reconexión */
+.reconnection-active {
+  background: #fecaca !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3) !important;
+}
+
+.reconnection-target {
+  background: #bbf7d0 !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3) !important;
+}
+
+/* Estilos para el grid de fondo */
+.react-flow__background {
+  opacity: 0.1;
+}
+
+.dark .react-flow__background {
+  opacity: 0.05;
+}
+
+/* Estilos para los controles */
+.react-flow__controls {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark .react-flow__controls {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.react-flow__controls-button {
+  border: none !important;
+  background: transparent !important;
+  color: #374151 !important;
+  transition: all 0.2s ease !important;
+}
+
+.react-flow__controls-button:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.dark .react-flow__controls-button {
+  color: #d1d5db !important;
+}
+
+.dark .react-flow__controls-button:hover {
+  background: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* Animaciones para puntos de control */
+@keyframes pulse-control-point {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.control-point.active {
+  animation: pulse-control-point 1s infinite;
+  background: #ef4444 !important;
+}
+
+/* Estilos para tooltips personalizados */
+.custom-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  max-width: 200px;
+  text-align: center;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.custom-tooltip.visible {
+  opacity: 1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .react-flow__handle {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  
+  .uml-node-improved {
+    min-width: 150px;
+    font-size: 12px;
+  }
+  
+  .control-point {
+    r: 6 !important;
+  }
+}
+
+/* Estilos para mejorar accesibilidad */
+.react-flow__node:focus,
+.react-flow__edge:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Estilos para estados de carga */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

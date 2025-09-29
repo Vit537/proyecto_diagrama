@@ -1,0 +1,227 @@
+{
+  "nodes": [
+    {
+      "id": "class-1759120834599",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": -180,
+        "y": 255
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [
+          {
+            "name": "henry",
+            "type": "String",
+            "visibility": "private"
+          }
+        ],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 173
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "class-1759120834887",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": 375,
+        "y": 300
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 182
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "class-1759120850670",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": -165,
+        "y": 540
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 182
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "class-1759120851854",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": 840,
+        "y": 480
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 182
+      },
+      "selected": true,
+      "dragging": false
+    },
+    {
+      "id": "intermediate-class-1759120850670-class-1759120851854-1759120858943",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": 285,
+        "y": 675
+      },
+      "data": {
+        "className": "NewClass_NewClass",
+        "attributes": [
+          {
+            "name": "newclassId",
+            "type": "String",
+            "visibility": "private"
+          },
+          {
+            "name": "newclassId",
+            "type": "String",
+            "visibility": "private"
+          }
+        ],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 201
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "class-1759120879487",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": 1020,
+        "y": 795
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 182
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "class-1759120881270",
+      "type": "improvedUMLClass",
+      "position": {
+        "x": -150,
+        "y": 870
+      },
+      "data": {
+        "className": "NewClass",
+        "attributes": [],
+        "methods": []
+      },
+      "measured": {
+        "width": 220,
+        "height": 182
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "class-1759120834599",
+      "sourceHandle": "right-50",
+      "target": "class-1759120834887",
+      "targetHandle": "left-50",
+      "type": "improvedUMLEdge",
+      "data": {
+        "relationship": "association",
+        "sourceMultiplicity": "1",
+        "targetMultiplicity": "1",
+        "isReconnectable": true,
+        "label": "tiene"
+      },
+      "id": "xy-edge__class-1759120834599right-50-class-1759120834887left-50",
+      "selected": false
+    },
+    {
+      "id": "many-to-many-class-1759120850670-class-1759120851854-1759120858943",
+      "source": "class-1759120850670",
+      "target": "class-1759120851854",
+      "type": "manyToManyEdge",
+      "data": {
+        "relationType": "many-to-many",
+        "sourceLabel": "*",
+        "targetLabel": "*",
+        "label": "many-to-many",
+        "intermediateTableId": "intermediate-class-1759120850670-class-1759120851854-1759120858943",
+        "intermediateTablePosition": {
+          "x": 247.5,
+          "y": 415
+        }
+      }
+    },
+    {
+      "source": "class-1759120881270",
+      "sourceHandle": "right-50",
+      "target": "class-1759120879487",
+      "targetHandle": "left-25",
+      "type": "improvedUMLEdge",
+      "data": {
+        "relationship": "inheritance",
+        "isReconnectable": true
+      },
+      "id": "xy-edge__class-1759120881270right-50-class-1759120879487left-25"
+    },
+    {
+      "source": "class-1759120881270",
+      "sourceHandle": "right-75",
+      "target": "class-1759120879487",
+      "targetHandle": "left-75",
+      "type": "improvedUMLEdge",
+      "data": {
+        "relationship": "composition",
+        "isReconnectable": true
+      },
+      "id": "xy-edge__class-1759120881270right-75-class-1759120879487left-75"
+    },
+    {
+      "source": "class-1759120881270",
+      "sourceHandle": "right-75",
+      "target": "class-1759120879487",
+      "targetHandle": "bottom-25",
+      "type": "improvedUMLEdge",
+      "data": {
+        "relationship": "aggregation",
+        "isReconnectable": true
+      },
+      "id": "xy-edge__class-1759120881270right-75-class-1759120879487bottom-25",
+      "selected": false
+    }
+  ],
+  "timestamp": "2025-09-29T04:44:10.350Z"
+}

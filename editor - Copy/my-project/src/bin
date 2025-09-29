@@ -1,0 +1,7 @@
+#root {
+  width: 1200px; /* ajusta según necesites */
+  height: 600px; /* ajusta según necesites */
+  margin: 0 auto; /* centra horizontalmente */
+  background-color: #ffffff;
+  overflow: auto; /* permite scroll interno si el contenido excede el tamaño */
+}

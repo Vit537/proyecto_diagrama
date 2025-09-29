@@ -1,0 +1,26 @@
+import React, { memo } from "react";
+import { type NodeProps, Position } from "@xyflow/react";
+ 
+import { LabeledHandle } from "@/components/labeled-handle";
+import { BaseNode } from "@/components/base-node";
+ 
+const LabeledHandleDemo = memo(() => {
+  return (
+    <BaseNode className="flex px-0 py-5">
+      <LabeledHandle
+        id="target-1"
+        title="Some Input"
+        type="target"
+        position={Position.Left}
+      />
+      <LabeledHandle
+        id="source-1"
+        title="Some Output"
+        type="source"
+        position={Position.Right}
+      />
+    </BaseNode>
+  );
+});
+ 
+export default LabeledHandleDemo;

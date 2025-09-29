@@ -1,0 +1,32 @@
+{
+    "email": "henry@ejemplo.com",
+    "password": "miclave123"
+}
+
+{
+    "message": "Login successful",
+    "user": {
+        "id": 2,
+        "email": "henry@ejemplo.com",
+        "first_name": "henry",
+        "last_name": "salas",
+        "full_name": "henry salas",
+        "avatar": null,
+        "role": "collaborator",
+        "is_email_verified": false,
+        "created_at": "2025-09-15T22:02:11.254360Z",
+        "updated_at": "2025-09-15T22:02:11.254375Z",
+        "is_active": true,
+        "profile": {
+            "bio": null,
+            "location": null,
+            "organization": null,
+            "website": null,
+            "timezone": "UTC",
+            "notification_preferences": {}
+        }
+    },
+    "tokens": {
+        "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1ODM5NDc2MiwiaWF0IjoxNzU4MzA4MzYyLCJqdGkiOiJjNDgyZGNhMzUzNGU0OWNlYTI3ZjI0OWQ5YTJmNDMwZSIsInVzZXJfaWQiOjJ9.LnvZHbVHiVVCzC0Am7K4SSAu9Q9TvNpJg16q5a_MN0w",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4MzExOTYyLCJpYXQiOjE3NTgzMDgzNjIsImp0aSI6IjNjMzg3MWE2YTM0NjRmNGQ5NjgzYmQ0YTNmNjYyYzkzIiwidXNlcl9pZCI6Mn0.V5gdUp92iSOK86VlOuYtAqxy6kA7RUt77YpuP3yTmUI"
+    }
