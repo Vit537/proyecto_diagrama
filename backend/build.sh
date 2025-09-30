@@ -1,23 +1,37 @@
 #!/usr/bin/env bash
-# exit on error
-set -o errexit
+# Render build script - exit on any error
+set -e
 
-echo "🚀 Starting Render build process..."
+echo "=== Starting Render Build Process ==="
+echo "Python version: $(python --version)"
+echo "Pip version: $(pip --version)"
 
-# Upgrade pip and install essential packages first
-python -m pip install --upgrade pip setuptools wheel
+# Upgrade pip and install essential packages
+echo "=== Upgrading pip and installing build tools ==="
+python -m pip install --upgrade pip
+pip install setuptools wheel
 
-echo "📦 Installing Python dependencies..."
-pip install -r requirements.txt
+# Install dependencies with verbose output
+echo "=== Installing project dependencies ==="
+pip install -r requirements.txt --verbose
 
-echo "📁 Creating necessary directories..."
-mkdir -p staticfiles
-mkdir -p media
+# Create necessary directories
+echo "=== Creating directories ==="
+mkdir -p staticfiles media
 
-echo "📁 Collecting static files..."
-python manage.py collectstatic --no-input --clear
+# Set Django settings
+export DJANGO_SETTINGS_MODULE=uml_diagrams_backend.settings_render
+echo "Using Django settings: $DJANGO_SETTINGS_MODULE"
 
-echo "🗄️ Running database migrations..."
-python manage.py migrate --no-input
+# Collect static files with settings check
+echo "=== Testing Django configuration ==="
+python manage.py check --deploy
 
-echo "✅ Build completed successfully!"
+echo "=== Collecting static files ==="
+python manage.py collectstatic --noinput --clear
+
+# Run migrations
+echo "=== Running database migrations ==="
+python manage.py migrate --noinput
+
+echo "=== Build completed successfully! ==="

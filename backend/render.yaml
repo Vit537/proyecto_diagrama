@@ -2,16 +2,18 @@ services:
   - type: web
     name: uml-diagrams-backend
     env: python
-    plan: free  # Change to 'starter' for better performance
-    buildCommand: "chmod +x build.sh && ./build.sh"
-    startCommand: "gunicorn uml_diagrams_backend.wsgi:application --bind 0.0.0.0:$PORT"
+    plan: free
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput"
+    startCommand: "gunicorn uml_diagrams_backend.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.9  # Changed to 3.11 for better compatibility
+        value: 3.11.9
       - key: DJANGO_SETTINGS_MODULE
         value: uml_diagrams_backend.settings_render
       - key: DEBUG
         value: "False"
+      - key: DISABLE_COLLECTSTATIC
+        value: "1"
 
   - type: pserv
     name: uml-diagrams-postgres
