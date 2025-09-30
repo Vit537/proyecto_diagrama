@@ -3,11 +3,11 @@ services:
     name: uml-diagrams-backend
     env: python
     plan: free  # Change to 'starter' for better performance
-    buildCommand: "chmod +x render_build.sh && ./render_build.sh"
+    buildCommand: "chmod +x build.sh && ./build.sh"
     startCommand: "gunicorn uml_diagrams_backend.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: PYTHON_VERSION
-        value: 3.9.18
+        value: 3.11.9  # Changed to 3.11 for better compatibility
       - key: DJANGO_SETTINGS_MODULE
         value: uml_diagrams_backend.settings_render
       - key: DEBUG

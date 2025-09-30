@@ -16,12 +16,19 @@ if DATABASE_URL:
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
     }
 
+# Helper function to parse CSV environment variables
+def csv_to_list(env_var, default=None):
+    val = os.environ.get(env_var)
+    if not val:
+        return default if default is not None else []
+    return [v.strip() for v in val.split(',') if v.strip()]
+
 # Allowed hosts for Render
 ALLOWED_HOSTS = [
     '.onrender.com',
     'localhost',
     '127.0.0.1',
-] + config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
+] + csv_to_list('ALLOWED_HOSTS', [])
 
 # Security settings for production
 SECURE_BROWSER_XSS_FILTER = True
@@ -45,9 +52,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # CORS configuration for Vercel frontend
 CORS_ALLOWED_ORIGINS = [
-    'https://your-vercel-app.vercel.app',  # Replace with your Vercel URL
-    'https://your-custom-domain.com',      # Replace with your custom domain if any
-] + config('CORS_ALLOWED_ORIGINS', default='', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
+    'http://localhost:5173',  # Local development
+    'http://localhost:3000',  # Alternative local port
+] + csv_to_list('CORS_ALLOWED_ORIGINS', [])
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
