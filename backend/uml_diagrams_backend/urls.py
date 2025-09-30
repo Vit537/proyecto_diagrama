@@ -19,8 +19,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Health check imports
+from healthcheck.views import health, ready
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # Health check endpoints for Railway
+    path('health/', health, name='health'),
+    path('ready/', ready, name='ready'),
     
     # API routes
     path('api/', include('authentication.urls')),
