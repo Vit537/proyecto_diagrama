@@ -5,6 +5,7 @@ django-cors-headers==4.3.1
 
 # Database
 psycopg2-binary==2.9.9
+dj-database-url==2.1.0
 
 # WebSockets for real-time collaboration
 channels==4.0.0
@@ -33,3 +34,9 @@ Jinja2==3.1.2
 # Utilities
 pillow>=9.0.0
 django-extensions==3.2.3
+
+# Production dependencies
+gunicorn==21.2.0
+whitenoise==6.6.0
+django-storages[google]==1.14.2
+google-cloud-storage==2.10.0

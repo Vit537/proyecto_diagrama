@@ -1,0 +1,55 @@
+runtime: python39
+
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: "uml_diagrams_backend.settings_production"
+  DEBUG: "False"
+  # Database configuration - these will be replaced by GitHub Actions
+  DB_NAME: "${DB_NAME}"
+  DB_USER: "${DB_USER}"
+  DB_PASSWORD: "${DB_PASSWORD}"
+  DB_HOST: "${DB_HOST}"
+  DB_PORT: "5432"
+  
+  # Google Cloud Storage
+  GS_BUCKET_NAME: "${GS_BUCKET_NAME}"
+  GS_PROJECT_ID: "${GS_PROJECT_ID}"
+  USE_GCS: "True"
+  
+  # Redis
+  REDIS_URL: "${REDIS_URL}"
+  
+  # CORS allowed origins
+  CORS_ALLOWED_ORIGINS: "${CORS_ALLOWED_ORIGINS}"
+  
+  # Email configuration
+  EMAIL_HOST: "smtp.gmail.com"
+  EMAIL_PORT: "587"
+  EMAIL_USE_TLS: "True"
+  EMAIL_HOST_USER: "${EMAIL_HOST_USER}"
+  EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD}"
+  DEFAULT_FROM_EMAIL: "${EMAIL_HOST_USER}"
+  
+  # OAuth configuration
+  GOOGLE_OAUTH2_CLIENT_ID: "${GOOGLE_OAUTH2_CLIENT_ID}"
+  GOOGLE_OAUTH2_CLIENT_SECRET: "${GOOGLE_OAUTH2_CLIENT_SECRET}"
+  
+  # JWT configuration
+  JWT_SECRET_KEY: "${JWT_SECRET_KEY}"
+  SECRET_KEY: "${SECRET_KEY}"
+
+beta_settings:
+  cloud_sql_instances: "${DB_HOST}"
+
+handlers:
+- url: /static
+  static_dir: staticfiles
+
+- url: /.*
+  script: auto

@@ -1,0 +1,13 @@
+# Migration job for App Engine
+runtime: python39
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: "uml_diagrams_backend.settings_production"
+
+manual_scaling:
+  instances: 1
+
+entrypoint: python manage.py migrate
+
+beta_settings:
+  cloud_sql_instances: "your-project-id:your-region:your-instance-name"
