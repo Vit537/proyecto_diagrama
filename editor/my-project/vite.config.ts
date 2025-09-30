@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: '../build',
+    outDir: 'dist', // Changed for Vercel
     sourcemap: false,
     minify: 'terser',
     rollupOptions: {
@@ -33,5 +33,9 @@ export default defineConfig({
   preview: {
     port: 4173,
     host: true,
+  },
+  // Vercel-specific optimizations
+  define: {
+    global: 'globalThis',
   }
 })

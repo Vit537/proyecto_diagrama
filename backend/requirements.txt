@@ -40,3 +40,6 @@ gunicorn==21.2.0
 whitenoise==6.6.0
 django-storages[google]==1.14.2
 google-cloud-storage==2.10.0
+
+# Render specific
+dj-database-url==2.1.0

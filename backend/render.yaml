@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: uml-diagrams-backend
+    env: python
+    plan: free  # Change to 'starter' for better performance
+    buildCommand: "chmod +x render_build.sh && ./render_build.sh"
+    startCommand: "gunicorn uml_diagrams_backend.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
+      - key: DJANGO_SETTINGS_MODULE
+        value: uml_diagrams_backend.settings_render
+      - key: DEBUG
+        value: "False"
+
+  - type: pserv
+    name: uml-diagrams-postgres
+    plan: free  # PostgreSQL database
+    ipAllowList: []
