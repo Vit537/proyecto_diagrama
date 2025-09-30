@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist', // Changed for Vercel
+    outDir: 'dist', // Changed for Vercel  
     sourcemap: false,
     minify: 'terser',
     rollupOptions: {
@@ -29,6 +29,13 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+    proxy: {
+      '/api': {
+        target: process.env.VITE_API_URL || 'http://localhost:8000',
+        changeOrigin: true,
+        secure: true,
+      }
+    }
   },
   preview: {
     port: 4173,
