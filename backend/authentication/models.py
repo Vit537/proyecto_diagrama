@@ -70,9 +70,11 @@ class User(AbstractUser):
     objects = UserManager()
     
     class Meta:
-        db_table = 'auth_user'
+        db_table = 'custom_auth_user'  # Changed to avoid conflict
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+        # Fix the related_name conflicts
+        swappable = 'AUTH_USER_MODEL'
     
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.email})"

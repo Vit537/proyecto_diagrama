@@ -3,13 +3,13 @@ services:
     name: uml-diagrams-backend
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
     startCommand: "gunicorn uml_diagrams_backend.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: DJANGO_SETTINGS_MODULE
-        value: uml_diagrams_backend.settings_render
+        value: uml_diagrams_backend.settings_minimal
       - key: DEBUG
         value: "False"
       - key: DISABLE_COLLECTSTATIC
