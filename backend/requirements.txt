@@ -1,4 +1,4 @@
-# Core Python packages (fix pkg_resources error)
+# Core Python packages (Railway optimization)
 setuptools>=65.0.0
 wheel>=0.37.0
 
@@ -7,9 +7,15 @@ Django==4.2.7
 djangorestframework==3.14.0
 django-cors-headers==4.3.1
 
-# Database
+# Database (Railway PostgreSQL)
 psycopg2-binary==2.9.9
 dj-database-url==2.1.0
+
+# Production server
+gunicorn==21.2.0
+
+# Static files handling
+whitenoise==6.6.0
 
 # WebSockets for real-time collaboration
 channels==4.0.0
